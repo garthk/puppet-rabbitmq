@@ -1,0 +1,2 @@
+class rabbitmq::plugins {
+}
