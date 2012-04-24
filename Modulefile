@@ -1,5 +1,5 @@
 name    'garthk-rabbitmq'
-version '0.2.2'
+version '0.2.3'
 author 'garthk'
 license 'Apache License, Version 2.0'
 summary 'Puppet module for RabbitMQ on Ubuntu.'

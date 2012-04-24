@@ -87,6 +87,8 @@ The class will:
 * `ensure` is optional, defaulting to `present`.
 * if `ensure => present`, you'll get `/usr/sbin/rabbitmqadmin` with
   command auto-completion on `bash`.
+* `rabbitmq::plugin { 'rabbitmq_management': }` is also required:
+  otherwise, you'll get the CLI but nothing to talk to.
 
 ## Testing:
 

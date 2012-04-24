@@ -1,5 +1,5 @@
 class rabbitmq::plugins::cli($ensure = present) {
-  $path = '/usr/sbin/rabbitmqadmin'
+  $rabbitmqadmin = '/usr/sbin/rabbitmqadmin'
   $bash_completion = '/etc/bash_completion.d/rabbitmqadmin' 
   case $ensure {
     present: {
@@ -11,17 +11,17 @@ class rabbitmq::plugins::cli($ensure = present) {
           ensure => present,
         }
       }
-      exec { $path:
-        creates => $path,
+      exec { "create $rabbitmqadmin":
+        creates => $rabbitmqadmin,
         cwd     => '/usr/sbin',
         path    => '/bin:/usr/bin',
         command => "${findservers} | xargs -i{} unzip -j ${ezfilespec} ${clifilespec}",
         require => [Package['unzip'], Package[$rabbitmq::package]],
       }
-      exec { $bash_completion:
+      exec { "create $bash_completion":
         creates => $bash_completion,
-        command => "${path} --bash-completion > ${bash_completion}",
-        require => Exec[$path],
+        command => "${rabbitmqadmin} --bash-completion > ${bash_completion}",
+        require => Exec["create $rabbitmqadmin"],
       }
     }
     absent: {
