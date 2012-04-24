@@ -108,12 +108,7 @@ The class will:
 
         vagrant up
 
-* Run the provisioner again ([Issue #1]):
-
-        vagrant provision
-
 [RabbitMQ]: http://www.rabbitmq.com/
 [Vagrant]: http://vagrantup.com/
 [smoke test]: http://docs.puppetlabs.com/guides/tests_smoke.html
 [get in touch]: http://twitter.com/garthk
-[Issue #1]: https://github.com/garthk/puppet-rabbitmq/issues/1

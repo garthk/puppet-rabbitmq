@@ -15,14 +15,14 @@ class rabbitmq::server {
 
   exec { 'apt-get update rabbit':
     command => "/usr/bin/apt-get update",
-    require => File['apt source rabbit'],
+    require => [Exec['apt-key rabbit'], File['apt source rabbit']],
     creates => "/var/lib/apt/lists/www.rabbitmq.com_debian_dists_testing_main_binary-${architecture}_Packages",
     timeout => 3600,
   }
 
   package { $rabbitmq::package:
     ensure  => installed,
-    require => [Exec['apt-get update rabbit'], Exec['apt-key rabbit']],
+    require => Exec['apt-get update rabbit'],
   }
 
   service { $rabbitmq::service:
