@@ -64,7 +64,7 @@ The class will:
 * `vhost` is optional, defaulting to `/`.
 * `ensure => absent` strips all permissions on the `vhost` regardless of
   the other arguments.
-* `conf`, `write`, and `read` are optional, defaulting to `".*"`
+* `conf`, `write`, and `read` are optional, defaulting to ``".*"``
 
 ### Plugins
 
