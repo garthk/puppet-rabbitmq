@@ -1,6 +1,6 @@
 define rabbitmq::vhost($ensure = present) {
-  require rabbitmq
   $exists = "${rabbitmq::ctl} list_permissions -p ${name}"
+  Exec { require => Package[$rabbitmq::package] }
   case $ensure {
     present: {
       exec { "add_vhost ${name}":

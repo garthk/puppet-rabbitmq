@@ -1,5 +1,5 @@
 define rabbitmq::permissions($ensure = present, $vhost = "/", $conf = ".*", $read = ".*", $write = ".*") {
-  require rabbitmq
+  Exec { require => Package[$rabbitmq::package] }
   case $ensure {
     present: {
       exec { "set_permissions ${vhost} ${name}":

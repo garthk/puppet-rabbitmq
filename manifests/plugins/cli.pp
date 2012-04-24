@@ -16,7 +16,7 @@ class rabbitmq::plugins::cli($ensure = present) {
         cwd     => '/usr/sbin',
         path    => '/bin:/usr/bin',
         command => "${findservers} | xargs -i{} unzip -j ${ezfilespec} ${clifilespec}",
-        require => Package['unzip'],
+        require => [Package['unzip'], Package[$rabbitmq::package]],
       }
       exec { $bash_completion:
         creates => $bash_completion,
@@ -37,5 +37,3 @@ class rabbitmq::plugins::cli($ensure = present) {
     }
   }
 }
-
-Class['rabbitmq::server'] -> Class['rabbitmq::plugins::cli']

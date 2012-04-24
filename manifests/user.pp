@@ -1,6 +1,6 @@
 define rabbitmq::user($ensure = present, $password = undef, $user_tag = "") {
-  require rabbitmq
   $exists = "${rabbitmq::ctl} -q list_users | grep  '^${name}\t'"
+  Exec { require => Package[$rabbitmq::package] }
   case $ensure {
     present: {
       if ! $password {
@@ -13,6 +13,7 @@ define rabbitmq::user($ensure = present, $password = undef, $user_tag = "") {
       exec { "tag ${name}":
         command => "${rabbitmq::ctl} set_user_tags '${name}' '${user_tag}'",
         unless  => "${rabbitmq::ctl} -q list_users | grep  '^${name}\t\\[${user_tag}\\]'",
+        require => Exec["add_user ${name}"],
       }
     }
     absent: {

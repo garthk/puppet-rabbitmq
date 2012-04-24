@@ -1,4 +1,5 @@
 define rabbitmq::plugin($enable = true) {
+  Exec { require => Package[$rabbitmq::package] }
   case $enable {
     true: {
       exec { "enable plugin ${name}":
@@ -21,5 +22,3 @@ define rabbitmq::plugin($enable = true) {
     }
   }
 }
-
-Class['rabbit'] -> Rabbitmq::Plugin <| |>
