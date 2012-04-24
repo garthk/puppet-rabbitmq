@@ -1,17 +1,19 @@
-define rabbitmq::permissions($ensure = present, $vhost = "/", $conf = ".*", $read = ".*", $write = ".*") {
+define rabbitmq::permissions($ensure = present, $vhost = "/", $conf = ".*", $read = ".*", $write = ".*", $user = $name) {
   Exec { require => Package[$rabbitmq::package] }
   case $ensure {
     present: {
-      exec { "set_permissions ${vhost} ${name}":
-       command => "${rabbitmq::ctl} set_permissions -p '${vhost}' '${name}' '${conf}' '${write}' '${read}'",
-        # flawed because grep picks up the regexp from the permission
-       # unless  => "${rabbitmq::ctl} -q list_permissions -p '${vhost}' | grep '^${name}\t${conf}\t${write}\t${read}'",
+      $exec_title = "set_permissions ${vhost} ${user}"
+      exec { $exec_title:
+       command => "${rabbitmq::ctl} set_permissions -p '${vhost}' '${user}' '${conf}' '${write}' '${read}'",
+       # flawed because grep picks up the regexp from the permission
+       # unless  => "${rabbitmq::ctl} -q list_permissions -p '${vhost}' | grep '^${user}\t${conf}\t${write}\t${read}'",
+        require => [Rabbitmq::User[$user], Rabbitmq::Vhost[$vhost]],
       }
     }
     absent: {
-      exec { "clear_permissions ${vhost} ${name}":
-       command => "${rabbitmq::ctl} clear_permissions -p '${vhost}' '${name}'",
-       onlyif  => "${rabbitmq::ctl} -q list_permissions -p '${vhost}' | grep '^${name}\t",
+      exec { "clear_permissions ${vhost} ${user}":
+       command => "${rabbitmq::ctl} clear_permissions -p '${vhost}' '${user}'",
+       onlyif  => "${rabbitmq::ctl} -q list_permissions -p '${vhost}' | grep '^${user}\t",
       }
     }
     default: {

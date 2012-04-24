@@ -46,7 +46,8 @@ The class will:
 
 ### Permissions
 
-    rabbitmq::permissions { 'admin':
+    rabbitmq::permissions { 'admin@logging':
+      user  => 'admin',
       vhost => 'logging',
       conf  => '.*',
       write => '.*',
@@ -58,6 +59,7 @@ The class will:
       vhost => 'logging',
     }
 
+* `user` is optional, defaulting to the `$name` (e.g. `boris` above)
 * `ensure` is optional, defaulting to `present`.
 * `vhost` is optional, defaulting to `/`.
 * `ensure => absent` strips all permissions on the `vhost` regardless of
